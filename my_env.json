@@ -1,0 +1,11 @@
+{
+  "id" : "my_env",
+  "name": "QA",
+  "values": [
+    {
+      "key": "books_api_base_url",
+      "value": "https://simple-books-api.glitch.me/",
+      "enabled": true
+    }
+  ]
+}

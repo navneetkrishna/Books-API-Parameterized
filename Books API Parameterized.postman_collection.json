@@ -1,0 +1,453 @@
+{
+	"info": {
+		"_postman_id": "e3f4c5e0-4a33-4708-ad9f-b280ea763d04",
+		"name": "Books API Parameterized",
+		"description": "- This collection encompasses a suite of tests designed to rigorously evaluate the functionality and data integrity of _**Simple Books API**_ endpoints.\n    \n- FragmentAPI Endpoint Tests with Parameterized & Hardcoded Values.\n    \n\n- Books API documentation\n    \n    - [https://glitch.com/edit/#!/simple-books-api](https://glitch.com/edit/#!/simple-books-api)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14342911",
+		"_collection_link": "https://www.postman.com/api222-0864/workspace/api-testing-101/collection/39282899-e3f4c5e0-4a33-4708-ad9f-b280ea763d04?action=share&source=collection_link&creator=14342911"
+	},
+	"item": [
+		{
+			"name": "API status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{books_api_base_url}}/status",
+					"host": [
+						"{{books_api_base_url}}"
+					],
+					"path": [
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all books",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							" const responseData = pm.response.json()\r",
+							"\r",
+							"pm.test(\"response data type validation\", function () {\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('array')\r",
+							"    pm.expect(responseData[0]).to.be.an('object')\r",
+							"\r",
+							"});\r",
+							"pm.collectionVariables.set(\"book_list\", responseData)\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{books_api_base_url}}/books",
+					"host": [
+						"{{books_api_base_url}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a single book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200)\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{books_api_base_url}}/books/:bookId",
+					"host": [
+						"{{books_api_base_url}}"
+					],
+					"path": [
+						"books",
+						":bookId"
+					],
+					"variable": [
+						{
+							"key": "bookId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Available book list",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Removed the console.log statement as it is not a valid Postman test\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// console.log(pm.collectionVariables.get('book_list'))\r",
+							"\r",
+							"const books = pm.collectionVariables.get('book_list')\r",
+							"\r",
+							"var available_book_list = []\r",
+							"\r",
+							"for(i=0; i<books.length; i++){\r",
+							"    // console.log(books[i].available)\r",
+							"    if (books[i].available === true)\r",
+							"    {\r",
+							"        // console.log(books[i].id)\r",
+							"        available_book_list.push(books[i].id)\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"// console.log(available_book_list)\r",
+							"pm.collectionVariables.set(\"available_books\", available_book_list)\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{books_api_base_url}}/books",
+					"host": [
+						"{{books_api_base_url}}"
+					],
+					"path": [
+						"books"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all book orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{books_api_base_url}}/orders",
+					"host": [
+						"{{books_api_base_url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"     pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"var responseData = pm.response.json();\r",
+							"\r",
+							"pm.test(\"response data type validation\", function () {\r",
+							"     pm.expect(responseData).to.be.an('object');\r",
+							"     pm.expect(responseData.created).to.be.a('boolean');\r",
+							"     pm.expect(responseData.orderId).to.be.a('string');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Validate if book is ordered\", function () {\r",
+							"    pm.expect(responseData.created).to.equal(true);\r",
+							"\r",
+							"});\r",
+							"pm.collectionVariables.set('orderId',responseData.orderId)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookId\": 1,\r\n    \"customerName\": \"Jhon Paul\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{books_api_base_url}}/orders",
+					"host": [
+						"{{books_api_base_url}}"
+					],
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update an order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 204\", function () {\r",
+							"     pm.expect(pm.response.code).to.equal(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customerName\": \"John Doe\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{books_api_base_url}}/orders/:orderId",
+					"host": [
+						"{{books_api_base_url}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete last book order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"status code is 204\", function (){\r",
+							"    pm.response.to.have.status(204)\r",
+							"})\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{books_api_base_url}}/orders/:orderId",
+					"host": [
+						"{{books_api_base_url}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "book_list",
+			"value": ""
+		},
+		{
+			"key": "available_books",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": "f17224aeb6897cccc8bd3e9e09e56e4b06de7e29fe9c90d1164b75f6f86e76d1"
+		},
+		{
+			"key": "orderId",
+			"value": ""
+		}
+	]
+}
